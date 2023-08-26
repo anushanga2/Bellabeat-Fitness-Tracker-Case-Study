@@ -1,0 +1,100 @@
+--Dataset: Fitbit Fitness Tracker Data
+--Source: Kaggle https://www.kaggle.com/datasets/arashnic/fitbit
+---Queried using: SQL in BigQuerry , Googledocs
+
+
+--What is the number of users for Fitbit Fitness Tracker, Average total steps by users, Maximum total steps by users, Average total distance by users, Maximum total distance by users, Average tracker distance by users, Maximum tracker distance by users, Average calories burnt by users, Average very active distance, Moderately active distance, Lightly active distance by users, and Average Sedentary minutes. 
+
+SELECT 
+  COUNT(DISTINCT Id) AS number_users,
+  AVG(TotalSteps) AS average_steps,
+  MAX(TotalSteps) AS maximum_total_steps,
+  AVG(TotalDistance) AS average_distance,
+  MAX(TotalDistance) AS maximum_total_distance,
+  AVG(TrackerDistance) AS average_tracker_distance,
+  AVG(Calories) AS average_calories,
+  AVG(VeryActiveDistance) AS average_very_active_distance,
+  AVG(ModeratelyActiveDistance) AS average_moderate_active_distance,
+  AVG(LightActiveDistance) AS average_light_active_distance,
+  AVG(VeryActiveMinutes) AS average_very_active_minutes,
+  AVG(FairlyActiveMinutes) AS average_fairly_active_minutes,
+  AVG(LightlyActiveMinutes) AS average_lightly_active_minutes,
+  AVG(SedentaryMinutes) AS average_sedentary_active_minutes
+
+FROM `bellabeat-fitness-396716.Bellabeat_data.Daily_activity
+
+--What are the active days per user?
+SELECT 
+  DISTINCT Id,
+  COUNT(ActivityDate) OVER (PARTITION BY Id) AS days_activity_recorded
+FROM `bellabeat-fitness-396716.Bellabeat_data.Daily_activity`
+ORDER BY
+  days_activity_recorded DESC
+
+--What is the number of users and minimum and maximum heart rates for them?
+
+SELECT
+  COUNT(DISTINCT Id) AS num_users_heartrate,
+  Max(Value) AS maximum_heartrate,
+  Min(Value) AS minimum_heartrate
+
+FROM `bellabeat-fitness-396716.Bellabeat_data.Heartrate_s`
+
+--What is the sum of METs value per each hour for the dataset
+
+SELECT 
+  CONCAT(hour_ind,b) AS hourr,
+  Sum(METs) AS Overall_Mets
+  FROM
+  (
+      SELECT 
+        MET.Id,
+        MET.METs,  
+        RIGHT(MET.ActivityMinutes,11) AS a,
+        RIGHT(MET.ActivityMinutes,2) AS b, 
+        REGEXP_EXTRACT(RIGHT(MET.ActivityMinutes,11),r"^(.+?):") AS hour_ind       
+    FROM `bellabeat-fitness-396716.Bellabeat_data.MinuteMETs` AS MET)
+
+ GROUP BY hourr
+ ORDER BY Overall_Mets DESC
+
+--What is the Overall intensities value per each hour for the dataset
+
+SELECT 
+  RIGHT(ActivityHour,11) AS hour,
+  Sum(TotalIntensity) AS Overall_int
+
+FROM `bellabeat-fitness-396716.Bellabeat_data.Hourlyintensity`
+GROUP BY hour
+ORDER BY Overall_int DESC
+
+--What is the number of sleep tracking users, and average, minimum and maxixmum sleep time of them?
+
+SELECT
+  COUNT(DISTINCT Id) AS usuers_tracking_sleep,
+  AVG(TotalMinutesAsleep)/60 AS average_hours_asleep,
+  MIN(TotalMinutesAsleep)/60 AS minimum_hours_asleep,
+  MAX(TotalMinutesAsleep)/60 AS maximum_hours_asleep,
+  AVG(TotalTimeInBed)/60 AS average_hours_inBed
+FROM `bellabeat-fitness-396716.Bellabeat_data.Sleep_day`
+
+--What is the number of users having sleep tracking, and average, minimum, and maximum weight for them?
+
+SELECT 
+  COUNT(DISTINCT Id) AS users_tracking_weight,
+  AVG(WeightKg) AS average_weight,
+  MIN(WeightKg) AS minimum_weight,
+  MAX(WeightKg) AS maximum_weight
+  FROM `bellabeat-fitness-396716.Bellabeat_data.Weightlog` 
+
+
+--Most active hour and day based on MET
+
+SELECT 
+	Calc, SUM(METs) AS Overall_METs
+FROM `bellabeat-fitness-396716.Bellabeat_data.Minute Met` 
+GROUP BY Calc
+ORDER BY SUM(METs) DESC
+LIMIT 20
+
+
