@@ -17,13 +17,16 @@ The initial data cleaning and preparation was conducted using the Bigquery SQL a
 ```
 install.packages("tidyverse")  
 install.packages("ggplot2")  
-install.packages("waffle")  
+install.packages("waffle")
+install.packages("plotly")
 library(tidyverse)  
 library(lubridate)  
 library(dplyr)  
 library(ggplot2)  
 library(tidyr)  
-library(RColorBrewer)    
+library(RColorBrewer)
+library(plotly)
+   
 ```
 2. Load the Dataset and assign names
 ```
@@ -54,10 +57,12 @@ calories$time <- format(calories$activityhour, format = "%H:%M:%S")
 calories$date <- format(calories$activityhour, format = "%m/%d/%y")
 activity$activitydate=as.POSIXct(activity$activitydate, format="%m/%d/%Y", tz=Sys.timezone())
 activity$date <- format(activity$activitydate, format = "%m/%d/%y")
+activity <- activity %>% mutate( weekday = weekdays(as.Date(activitydate, "%m/%d/%Y")))
 hourly_steps <- hourly_steps %>% 
   rename(date_time = activityhour) %>% 
   mutate(date_time = as.POSIXct(date_time, format ="%m/%d/%Y %I:%M:%S %p", tz=Sys.timezone()))
-merged_activity_sleep <- merge(activity, sleep, by=c("id","date"), all.x = TRUE) 
+merged_activity_sleep <- merge(activity, sleep, by=c("id","date"), all.x = TRUE)
+merged_data_id <- merge(merged_activity_sleep, weight, by = c("id"), all=TRUE)
 ```
 4. Calculating the number of participants for each data set
 ```
@@ -116,6 +121,38 @@ ggplot(data=subset(merged_activity_sleep,!is.na(totalminutesasleep)),aes(totalst
     labs(title= "Daily steps vs. Sleep", x= "daily steps", y="minutes asleep")+
     theme_minimal()
 ```
-![Daily steps Vs Sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/545d169e-fe7c-4ec8-bcd2-652866d0edac)
+![Daily steps Vs Sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/545d169e-fe7c-4ec8-bcd2-652866d0edac)  
 The above graph provides a correlation coefficient of -0.2 between Total steps and Minutes asleep, which represents a low negative relationship between the variables. 
-* Sedentary minutues vs Calories
+* Sedentary minutues vs Sleep
+```
+ggplot(data=subset(merged_activity_sleep,!is.na(sedentaryminutes)),aes(sedentaryminutes,totalminutesasleep))+
+    geom_rug(position="jitter", size=.08)+geom_jitter(alpha=0.5)+geom_smooth(color= "blue", size =.6)+
+    labs(title= "Sedentary minutes vs. Sleep", x= "Sedentary minutes", y="minutes asleep")+
+    theme_minimal()
+```  
+The above graph provides a correlation coefficient of -0.6 between Sedentary minutes and Total minutes asleep, which represents a moderate negative relationship between the variables.  
+* Percentage of time segments
+
+```
+perc_veryactive<-sum(activity$veryactiveminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
+perc_lightlyactive<sum(activity$lightlyactiveminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
+perc_fairlyactive<-sum(activity$sedentaryminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
+perc_sedentary<-sum(activity$sedentaryminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
+percentage <- data.frame(
+    level=c("Sedentary", "Lightly", "Fairly", "Very Active"),
+    minutes=c(perc_sedentary,perc_lightlyactive,perc_fairlyactive,perc_veryactive))
+plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textposition = 'outside',textinfo = 'label+percent') %>%
+  layout(title = 'Activity Level Minutes',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textposition = 'outside',textinfo = 'label+percent') %>%
+  layout(title = 'Percentage activity levels',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+```
+
+
+
+
+
