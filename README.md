@@ -109,4 +109,13 @@ ggplot(merged_activity_sleep,aes(totalsteps,calories))+geom_jitter(alpha=.5)+
 ![Daily steps Vs Calories](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/c85a65c1-9a8d-49e8-8fb9-24e01390a229)  
 
 The above graph provides a correlation coefficient of 0.6 between Total steps and Calories, which represents a moderate positive relationship between the variables. 
-
+* Daily steps vs Sleep
+```
+ggplot(data=subset(merged_activity_sleep,!is.na(totalminutesasleep)),aes(totalsteps,totalminutesasleep))+
+    geom_rug(position="jitter", size=.08)+geom_jitter(alpha=0.5)+geom_smooth(color= "blue", size =.6)+
+    labs(title= "Daily steps vs. Sleep", x= "daily steps", y="minutes asleep")+
+    theme_minimal()
+```
+![Daily steps Vs Sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/545d169e-fe7c-4ec8-bcd2-652866d0edac)
+The above graph provides a correlation coefficient of -0.2 between Total steps and Minutes asleep, which represents a low negative relationship between the variables. 
+* Sedentary minutues vs Calories
