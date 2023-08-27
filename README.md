@@ -95,4 +95,18 @@ sleep %>%
 
 ```  
   The summary statistics for each data set is as follows,    
-* On aveage users take about 7,638 steps per day and the total average walking distance of users is around 5.49 kms. Also, the amount of average calory burn by users is around 2304 calories. This amount is in line with the [recommended amount of calory burn for women](https://www.healthline.com/health/fitness-exercise/how-many-calories-do-i-burn-a-day) which falls between 1,600-2,200 calories per day. However, the recommended daily steps to be walked is below the [recomended levels](https://www.medicalnewstoday.com/articles/325809) of 10,000. One of the possible reasons for this could be most of the users of Bellabeat having healthy BMI levels (Median:24.39) which is between [recommended range](https://www.healthline.com/nutrition/bmi-for-women) of 18.5-24.9. However, the average BMI value of the users is 25.19 which falls on the overweight range.
+* On aveage users take about 7,638 steps per day and the total average walking distance of users is around 5.49 kms. Also, the amount of average calory burn by users is around 2304 calories. This amount is in line with the [recommended amount of calory burn for women](https://www.healthline.com/health/fitness-exercise/how-many-calories-do-i-burn-a-day) which falls between 1,600-2,200 calories per day. However, the recommended daily steps to be walked is below the [recomended levels](https://www.medicalnewstoday.com/articles/325809) of 10,000. One of the possible reasons for this could be most of the users of Bellabeat having healthy BMI levels (Median:24.39) which is between [recommended range](https://www.healthline.com/nutrition/bmi-for-women) of 18.5-24.9. However, the average BMI value of the users is 25.19 which falls on the overweight range. With the assumption of all the data are from adults, the average number of hours slept by users per day is calculated as 6.98 hours which is close to the [recommended sleep hour range](https://www.mayoclinic.org/healthy-lifestyle/adult-health/expert-answers/how-many-hours-of-sleep-are-enough/faq-20057898) for adults.
+
+2. Relationship between variables
+To identify the correlations between variables, following plots were obtained from R.  
+* Daily steps vs Calories  
+ ```
+ggplot(merged_activity_sleep,aes(totalsteps,calories))+geom_jitter(alpha=.5)+
+    geom_rug(position="jitter", size=.08)+geom_smooth(size =.6)+
+    labs(title= "Daily steps vs. Calories", x= "daily steps", y="calories")+
+    theme_minimal()
+```  
+![Daily steps Vs Calories](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/c85a65c1-9a8d-49e8-8fb9-24e01390a229)  
+
+The above graph provides a correlation coefficient of 0.6 between Total steps and Calories, which represents a moderate positive relationship between the variables. 
+
