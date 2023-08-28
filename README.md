@@ -79,11 +79,8 @@ n_distinct(weight$Id)
 activity %>%  
     select(totalsteps,
            totaldistance,
-           sedentaryminutes, calories) %>%
-    summary()
- 
-activity %>%
-    select(veryactiveminutes, fairlyactiveminutes, lightlyactiveminutes) %>%
+           sedentaryminutes, calories,
+           veryactiveminutes, fairlyactiveminutes, lightlyactiveminutes) %>%
     summary()
 
 weight %>%
@@ -164,7 +161,7 @@ plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textpositio
 ```  
 
 
-Accoring to the [World Health Organization](https://www.who.int/news-room/fact-sheets/detail/physical-activity), adults aged between 18-64 should do at least 150-300 minutes of moderate intensity aerobic physical activity, 75-150 minutes of high intensity phycial activity on a weekly basis. According to these results, users should do at least 21.5 minutes of daily moderate intensity activity and 11 minutes of daily very active physical exercises.  
+According to the [World Health Organization](https://www.who.int/news-room/fact-sheets/detail/physical-activity), adults aged between 18-64 should do at least 150-300 minutes of moderate intensity aerobic physical activity, 75-150 minutes of high intensity phycial activity on a weekly basis. According to these results, users should do at least 21.5 minutes of daily moderate intensity activity and 11 minutes of daily very active physical exercises.  
 ```
 
 
@@ -200,3 +197,34 @@ ggplot(data=activity, aes(x=weekday, y=totalsteps))+ geom_bar(stat="identity",fi
     theme(plot.title= element_text(hjust= 0.5,vjust= 0.8, size=12),
           panel.background= element_blank())
   ```
+* Grouping the users by type of activity and comparing against sleep time
+
+ According to the [10000steps article](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/),  the activity levels are detailed with respect to the number of steps, and it is recommended to walk at least 10,000 steps per day to reach the healthy physical activity levels. 
+```
+daily_average <- merged_activity_sleep %>% 
+    group_by (id) %>% 
+    summarise(avg_daily_steps= mean(totalsteps), 
+              avg_daily_cal= mean(calories), 
+              avg_daily_sleep= mean(totalminutesasleep, 
+                                    na.rm = TRUE)) %>% 
+    mutate(user_type= case_when(
+        avg_daily_steps < 5000 ~ "sedentary",
+        avg_daily_steps >= 5000 & avg_daily_steps <7499 ~"lightly active",
+        avg_daily_steps >= 7499 & avg_daily_steps <9999 ~"fairly active",
+        avg_daily_steps >= 10000 ~"very active"
+    ))
+sleep_finalavg <- merge(activity_sleep, daily_average[c("id","user_type")], by="id")
+sleep_finalavg$user_type <-ordered(sleep_finalavg$user_type, levels=c("sedentary","lightly active","fairly active","very active"))
+
+ggplot(subset(sleep_finalavg,!is.na(totalminutesasleep)),
+       aes(user_type,totalminutesasleep, fill=user_type))+
+    geom_boxplot()+
+    stat_summary(fun="mean", geom="point", 
+                 shape=23,size=2, fill="white")+
+    labs(title= "Sleep vs. Activity Type", 
+         x = "Activity", y =" Minutes asleep")+
+    scale_fill_brewer(palette="Spectral")+
+    theme(plot.title= element_text(hjust = 0.5,vjust= 0.8, size=12),
+          legend.position = "none")
+```
+According to the above results, the sleep time is higher than the recommended levels of sleep for average lightly and fairly active users, where as sleep is below than the recommended for typical very active users.
