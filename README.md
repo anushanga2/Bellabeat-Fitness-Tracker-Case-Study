@@ -98,6 +98,17 @@ sleep %>%
   select(totalsleeprecords, totalminutesasleep, totaltimeinbed) %>%
   summary()
 
+hourly_steps <- hourly_steps %>% 
+    separate(date_time, into = c("date", "time"), sep = " ") %>% 
+    mutate(date = ymd (date))
+
+weekdayofsteps <- (hourly_steps)%>%
+    mutate(weekday = weekdays(date))%>%
+    group_by (weekday,time) %>% 
+    summarize(average_steps = mean(steptotal), .groups = 'drop')
+
+weekdayofsteps$weekday <- ordered(weekdayofsteps$weekday, 
+                           levels=c("Monday", "Tuesday", "Wednesday","Thursday","Friday", "Saturday", "Sunday"))
 ```  
   The summary statistics for each data set is as follows,    
 * On aveage users take about 7,638 steps per day and the total average walking distance of users is around 5.49 kms. Also, the amount of average calory burn by users is around 2304 calories. This amount is in line with the [recommended amount of calory burn for women](https://www.healthline.com/health/fitness-exercise/how-many-calories-do-i-burn-a-day) which falls between 1,600-2,200 calories per day. However, the recommended daily steps to be walked is below the [recomended levels](https://www.medicalnewstoday.com/articles/325809) of 10,000. One of the possible reasons for this could be most of the users of Bellabeat having healthy BMI levels (Median:24.39) which is between [recommended range](https://www.healthline.com/nutrition/bmi-for-women) of 18.5-24.9. However, the average BMI value of the users is 25.19 which falls on the overweight range. With the assumption of all the data are from adults, the average number of hours slept by users per day is calculated as 6.98 hours which is close to the [recommended sleep hour range](https://www.mayoclinic.org/healthy-lifestyle/adult-health/expert-answers/how-many-hours-of-sleep-are-enough/faq-20057898) for adults.
@@ -150,9 +161,42 @@ plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textpositio
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
+```  
+
+
+Accoring to the [World Health Organization](https://www.who.int/news-room/fact-sheets/detail/physical-activity), adults aged between 18-64 should do at least 150-300 minutes of moderate intensity aerobic physical activity, 75-150 minutes of high intensity phycial activity on a weekly basis. According to these results, users should do at least 21.5 minutes of daily moderate intensity activity and 11 minutes of daily very active physical exercises.  
 ```
 
 
+```
 
+* Active hours of the users based on Intensity
+```
+int_new <- intensities %>%
+    group_by(time) %>%
+    drop_na() %>%
+    summarise(mean_total_int = mean(totalintensity))
 
-
+ggplot(data=int_new, aes(x=time, y=mean_total_int)) + geom_histogram(stat = "identity", fill='darkgreen') +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(title="Average Total Intensity vs. Time")
+```  
+Based on the above graph, the most active hours of the users is between 5.00 PM and 8.00 PM. 
+* Total steps walked on each day of the week
+```
+activity$weekday<-ordered(activity$weekday,levels=c("Monday", "Tuesday", "Wednesday","Thursday","Friday", "Saturday", "Sunday"))
+ggplot(data=activity, aes(x=weekday, y=totalsteps))+ geom_bar(stat="identity",fill="darkblue")+ labs(title="Daily Total Steps",x="Week day",y= "Total Steps")
+```  
+* Active time variation
+  ```
+  ggplot(weekdayofsteps, aes(x= time, y= weekday, 
+                           fill= average_steps)) +
+    theme(axis.text.x= element_text(angle = 90))+
+    labs(title="Active Time Variation", 
+         x=" ", y=" ",fill = "Average\nSteps")+
+    scale_fill_gradient(low= "white", high="blue4")+
+    geom_tile(color= "white",lwd =.5,linetype =1)+
+    coord_fixed()+
+    theme(plot.title= element_text(hjust= 0.5,vjust= 0.8, size=12),
+          panel.background= element_blank())
+  ```
