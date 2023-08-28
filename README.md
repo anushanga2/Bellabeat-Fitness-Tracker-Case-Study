@@ -43,7 +43,6 @@ hourly_steps <- rename_with(hourly_steps, tolower)
 intensities <- rename_with(intensities, tolower)  
 calories <- rename_with(calories, tolower)
 weight <- rename_with(weight, tolower)
-
 ```  
 3. Fix Formats  
 ```
@@ -71,8 +70,7 @@ n_distinct(calories$Id)
 n_distinct(sleep$Id)  
 n_distinct(intensities$Id)    
 n_distinct(weight$Id)  
-```
-
+```  
 ## Analyze  
 1. Calculating he summary statistics
   ```
@@ -113,7 +111,7 @@ weekdayofsteps$weekday <- ordered(weekdayofsteps$weekday,
 2. Relationship between variables
 To identify the correlations between variables, following plots were obtained from R.  
 * Daily steps vs Calories  
- ```
+ ```  
 ggplot(merged_activity_sleep,aes(totalsteps,calories))+geom_jitter(alpha=.5)+
     geom_rug(position="jitter", size=.08)+geom_smooth(size =.6)+
     labs(title= "Daily steps vs. Calories", x= "daily steps", y="calories")+
@@ -123,25 +121,25 @@ ggplot(merged_activity_sleep,aes(totalsteps,calories))+geom_jitter(alpha=.5)+
 
 The above graph provides a correlation coefficient of 0.6 between Total steps and Calories, which represents a moderate positive relationship between the variables. 
 * Daily steps vs Sleep
-```
+```  
 ggplot(data=subset(merged_activity_sleep,!is.na(totalminutesasleep)),aes(totalsteps,totalminutesasleep))+
     geom_rug(position="jitter", size=.08)+geom_jitter(alpha=0.5)+geom_smooth(color= "blue", size =.6)+
     labs(title= "Daily steps vs. Sleep", x= "daily steps", y="minutes asleep")+
     theme_minimal()
-```
+```  
 ![Daily steps Vs Sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/545d169e-fe7c-4ec8-bcd2-652866d0edac)  
 The above graph provides a correlation coefficient of -0.2 between Total steps and Minutes asleep, which represents a low negative relationship between the variables. 
 * Sedentary minutues vs Sleep
-```
+```  
 ggplot(data=subset(merged_activity_sleep,!is.na(sedentaryminutes)),aes(sedentaryminutes,totalminutesasleep))+
     geom_rug(position="jitter", size=.08)+geom_jitter(alpha=0.5)+geom_smooth(color= "blue", size =.6)+
     labs(title= "Sedentary minutes vs. Sleep", x= "Sedentary minutes", y="minutes asleep")+
     theme_minimal()
-```  
+```   
+![Sedentary minutes vs sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/857a26fe-efe8-4678-a6c1-f7e5361c700a)  
 The above graph provides a correlation coefficient of -0.6 between Sedentary minutes and Total minutes asleep, which represents a moderate negative relationship between the variables.  
-* Percentage of time segments
-
-```
+* Percentage of time segments  
+```  
 perc_veryactive<-sum(activity$veryactiveminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
 perc_lightlyactive<sum(activity$lightlyactiveminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
 perc_fairlyactive<-sum(activity$sedentaryminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
@@ -157,18 +155,12 @@ plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textpositio
   layout(title = 'Percentage activity levels',
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
-
 ```  
-
+![percentages](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/9cbdeada-3c8b-4a0b-9795-f237c8996419)   
 
 According to the [World Health Organization](https://www.who.int/news-room/fact-sheets/detail/physical-activity), adults aged between 18-64 should do at least 150-300 minutes of moderate intensity aerobic physical activity, 75-150 minutes of high intensity phycial activity on a weekly basis. According to these results, users should do at least 21.5 minutes of daily moderate intensity activity and 11 minutes of daily very active physical exercises.  
-```
-
-
-```
-
-* Active hours of the users based on Intensity
-```
+* Active hours of the users based on Intensity  
+```  
 int_new <- intensities %>%
     group_by(time) %>%
     drop_na() %>%
@@ -178,13 +170,16 @@ ggplot(data=int_new, aes(x=time, y=mean_total_int)) + geom_histogram(stat = "ide
   theme(axis.text.x = element_text(angle = 90)) +
   labs(title="Average Total Intensity vs. Time")
 ```  
+![average total intensity vs time](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/7fb0f90a-9d9d-43fd-9afd-eb64a1e57016)   
 Based on the above graph, the most active hours of the users is between 5.00 PM and 8.00 PM. 
 * Total steps walked on each day of the week
-```
+```  
 activity$weekday<-ordered(activity$weekday,levels=c("Monday", "Tuesday", "Wednesday","Thursday","Friday", "Saturday", "Sunday"))
 ggplot(data=activity, aes(x=weekday, y=totalsteps))+ geom_bar(stat="identity",fill="darkblue")+ labs(title="Daily Total Steps",x="Week day",y= "Total Steps")
 ```  
-* Active time variation
+![daily total steps](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/38ba35e7-0e34-424b-9990-0659296e431b)  
+
+* Active time variation  
   ```
   ggplot(weekdayofsteps, aes(x= time, y= weekday, 
                            fill= average_steps)) +
@@ -195,12 +190,13 @@ ggplot(data=activity, aes(x=weekday, y=totalsteps))+ geom_bar(stat="identity",fi
     geom_tile(color= "white",lwd =.5,linetype =1)+
     coord_fixed()+
     theme(plot.title= element_text(hjust= 0.5,vjust= 0.8, size=12),
-          panel.background= element_blank())
-  ```
-* Grouping the users by type of activity and comparing against sleep time
+          panel.background= element_blank())  
+  ```  
+![file_show](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/8f1e54f8-1834-4544-b189-adfc3050bbd0)  
+* Grouping the users by type of activity and comparing against sleep time  
 
  According to the [10000steps article](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/),  the activity levels are detailed with respect to the number of steps, and it is recommended to walk at least 10,000 steps per day to reach the healthy physical activity levels. 
-```
+```   
 daily_average <- merged_activity_sleep %>% 
     group_by (id) %>% 
     summarise(avg_daily_steps= mean(totalsteps), 
@@ -226,5 +222,8 @@ ggplot(subset(sleep_finalavg,!is.na(totalminutesasleep)),
     scale_fill_brewer(palette="Spectral")+
     theme(plot.title= element_text(hjust = 0.5,vjust= 0.8, size=12),
           legend.position = "none")
-```
-According to the above results, the sleep time is higher than the recommended levels of sleep for average lightly and fairly active users, where as sleep is below than the recommended for typical very active users.
+```  
+According to the above results, the sleep time is higher than the recommended levels of sleep for average lightly and fairly active users, where as sleep is below than the recommended for typical very active users.  
+![sleep vs activity](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/2c144c46-fb72-4e5e-b3a2-a7039527ddbd)  
+
+## Recommendations
