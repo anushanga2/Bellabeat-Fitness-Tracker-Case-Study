@@ -223,4 +223,9 @@ As per the results detailed above, the sleep time is higher than the recommended
 ## Dashboard for weekly results  
 ![Dashboard 1](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/9204497e-7c79-49bf-9b68-bd93c8c81516)  
 
-## Recommendations
+## Recommendations  
+1. Encourage the users to exercise more on Sundays, Thursdays and Fridays by alerting them through notifications on the Bellabeat app or email.  
+2. Educating users about healthy fitness activities or products during less active periods.  
+3. Adding new features for the smart devices to motivate users to achieve healthy sleep hours ,mostly during Tuesdays, Fridays and Saturdays. The option can be given to users to notify them about their daily sleep hours to maintain a healthy lifestyle.  
+4. Since users have a higher percentage of sedentary time durations, and since users' quality of sleep has reduced with higher sedentary time, the Bellabeat platforms can be used to educate the users about reducing sedentary time and engaging in more fitness activities.  
+5. Improving the features of wifi-based weight monitoring to improve the fitness decisions of users. Bellabeat membership can also be used to motivate the users to achieve recommended healthy goals.  
