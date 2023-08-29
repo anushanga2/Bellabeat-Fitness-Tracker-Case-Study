@@ -157,8 +157,7 @@ plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textpositio
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 ```  
 ![percentages](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/9cbdeada-3c8b-4a0b-9795-f237c8996419)   
-
-According to the [World Health Organization](https://www.who.int/news-room/fact-sheets/detail/physical-activity), adults aged between 18-64 should do at least 150-300 minutes of moderate intensity aerobic physical activity, 75-150 minutes of high intensity phycial activity on a weekly basis. According to these results, users should do at least 21.5 minutes of daily moderate intensity activity and 11 minutes of daily very active physical exercises.  
+ 
 * Active hours of the users based on Intensity  
 ```  
 int_new <- intensities %>%
@@ -166,9 +165,7 @@ int_new <- intensities %>%
     drop_na() %>%
     summarise(mean_total_int = mean(totalintensity))
 
-ggplot(data=int_new, aes(x=time, y=mean_total_int)) + geom_histogram(stat = "identity", fill='darkgreen') +
-  theme(axis.text.x = element_text(angle = 90)) +
-  labs(title="Average Total Intensity vs. Time")
+ggplot(data=int_new, aes(x=time, y=mean_total_int)) + geom_histogram(stat = "identity", fill='darkgreen') + theme(axis.text.x = element_text(angle = 90)) + labs(title="Average Total Intensity vs. Time")
 ```  
 ![average total intensity vs time](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/7fb0f90a-9d9d-43fd-9afd-eb64a1e57016)   
 Based on the above graph, the most active hours of the users is between 5.00 PM and 8.00 PM. 
@@ -193,6 +190,7 @@ ggplot(data=activity, aes(x=weekday, y=totalsteps))+ geom_bar(stat="identity",fi
           panel.background= element_blank())  
   ```  
 ![file_show](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/8f1e54f8-1834-4544-b189-adfc3050bbd0)  
+Activity time variation graph outcomes represent that the most active users are between Wednesday 5.00-8.00 PM and Saturday 12.00-3.00 PM.  
 * Grouping the users by type of activity and comparing against sleep time  
 
  According to the [10000steps article](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/),  the activity levels are detailed with respect to the number of steps, and it is recommended to walk at least 10,000 steps per day to reach the healthy physical activity levels. 
@@ -222,8 +220,7 @@ ggplot(subset(sleep_finalavg,!is.na(totalminutesasleep)),
     scale_fill_brewer(palette="Spectral")+
     theme(plot.title= element_text(hjust = 0.5,vjust= 0.8, size=12),
           legend.position = "none")
-```  
-According to the above results, the sleep time is higher than the recommended levels of sleep for average lightly and fairly active users, where as sleep is below than the recommended for typical very active users.  
+```    
 ![sleep vs activity](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/2c144c46-fb72-4e5e-b3a2-a7039527ddbd)  
-
+As per the results detailed above, the sleep time is higher than the recommended levels of sleep for average lightly and fairly active users, where as sleep is below than the recommended for typical very active users.  
 ## Recommendations
