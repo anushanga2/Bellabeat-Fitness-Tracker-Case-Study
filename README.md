@@ -142,7 +142,7 @@ The sedentary minutes vs sleep graph provides a correlation coefficient of -0.6 
 ```  
 perc_veryactive<-sum(activity$veryactiveminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
 perc_lightlyactive<sum(activity$lightlyactiveminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
-perc_fairlyactive<-sum(activity$sedentaryminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
+perc_fairlyactive<-sum(activity$fairlyactiveminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
 perc_sedentary<-sum(activity$sedentaryminutes)/(sum(activity$veryactiveminutes)+sum(activity$fairlyactiveminutes)+sum(activity$lightlyactiveminutes)+sum(activity$sedentaryminutes))
 percentage <- data.frame(
     level=c("Sedentary", "Lightly", "Fairly", "Very Active"),
@@ -151,10 +151,7 @@ plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textpositio
   layout(title = 'Activity Level Minutes',
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
-plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textposition = 'outside',textinfo = 'label+percent') %>%
-  layout(title = 'Percentage activity levels',
-         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
 ```  
 ![percentages](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/9cbdeada-3c8b-4a0b-9795-f237c8996419)   
  
