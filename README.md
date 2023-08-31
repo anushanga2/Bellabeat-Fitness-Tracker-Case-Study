@@ -222,6 +222,7 @@ ggplot(subset(sleep_finalavg,!is.na(totalminutesasleep)),
 As per the results detailed above, the sleep time is higher than the recommended levels of sleep for average lightly and fairly active users. In contrast, sleep is below the recommended for typical very active users.  
 ## Dashboard for weekly results  
 ![Dashboard 1](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/9204497e-7c79-49bf-9b68-bd93c8c81516)  
+Tablaeu dashboard: [Bellabeat Fitness Tracker Case Study](https://public.tableau.com/views/BellabeatFitnessTrackerCaseStudy_16933303803030/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
 
 ## Recommendations  
 1. Encourage the users to exercise more on Sundays, Thursdays and Fridays by alerting them through notifications on the Bellabeat app or email.  
