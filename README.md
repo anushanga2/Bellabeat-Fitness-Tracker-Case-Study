@@ -117,7 +117,7 @@ ggplot(merged_activity_sleep,aes(totalsteps,calories))+geom_jitter(alpha=.5)+
     labs(title= "Daily steps vs. Calories", x= "daily steps", y="calories")+
     theme_minimal()
 ```  
-![Daily steps Vs Calories](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/c85a65c1-9a8d-49e8-8fb9-24e01390a229)  
+![Daily steps Vs Calories](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Daily%20steps%20Vs%20Calories.png)
 
 The above graph provides a correlation coefficient 0.6 between Total steps and Calories, representing a moderate positive relationship between the variables. 
 * Daily steps vs Sleep
@@ -127,7 +127,7 @@ ggplot(data=subset(merged_activity_sleep,!is.na(totalminutesasleep)),aes(totalst
     labs(title= "Daily steps vs. Sleep", x= "daily steps", y="minutes asleep")+
     theme_minimal()
 ```  
-![Daily steps Vs Sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/545d169e-fe7c-4ec8-bcd2-652866d0edac)  
+![Daily steps Vs Sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Daily%20steps%20Vs%20Sleep.png)  
 The daily step vs sleep graph provides a correlation coefficient of -0.2 between Total steps and Minutes asleep, representing a low negative relationship between the variables. 
 * Sedentary minutues vs Sleep
 ```  
@@ -136,7 +136,7 @@ ggplot(data=subset(merged_activity_sleep,!is.na(sedentaryminutes)),aes(sedentary
     labs(title= "Sedentary minutes vs. Sleep", x= "Sedentary minutes", y="minutes asleep")+
     theme_minimal()
 ```   
-![Sedentary minutes vs sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/857a26fe-efe8-4678-a6c1-f7e5361c700a)  
+![Sedentary minutes vs sleep](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Sedentary%20minutes%20vs%20sleep.png)  
 The sedentary minutes vs sleep graph provides a correlation coefficient of -0.6 between Sedentary minutes and Total minutes asleep, representing a moderate negative relationship between the variables.  
 * Percentage of time segments  
 ```  
@@ -153,7 +153,7 @@ plot_ly(percentage, labels = ~level, values = ~minutes, type = 'pie',textpositio
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
 ```  
-![percentages](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/9cbdeada-3c8b-4a0b-9795-f237c8996419)   
+![percentages](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Percentage%20Activivty%20Levels.png)   
  
 * Active hours of the users based on Intensity  
 ```  
@@ -164,14 +164,14 @@ int_new <- intensities %>%
 
 ggplot(data=int_new, aes(x=time, y=mean_total_int)) + geom_histogram(stat = "identity", fill='darkgreen') + theme(axis.text.x = element_text(angle = 90)) + labs(title="Average Total Intensity vs. Time")
 ```  
-![average total intensity vs time](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/7fb0f90a-9d9d-43fd-9afd-eb64a1e57016)   
+![average total intensity vs time](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/average%20total%20intensity%20vs%20time.png)    
 Based on the above graph, the most active hours of the users are between 5.00 PM and 8.00 PM. 
 * Total steps walked on each day of the week
 ```  
 activity$weekday<-ordered(activity$weekday,levels=c("Monday", "Tuesday", "Wednesday","Thursday","Friday", "Saturday", "Sunday"))
 ggplot(data=activity, aes(x=weekday, y=totalsteps))+ geom_bar(stat="identity",fill="darkblue")+ labs(title="Daily Total Steps",x="Week day",y= "Total Steps")
 ```  
-![daily total steps](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/38ba35e7-0e34-424b-9990-0659296e431b)  
+![daily total steps](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Daily%20total%20steps.png)  
 
 * Active time variation  
   ```
@@ -186,7 +186,7 @@ ggplot(data=activity, aes(x=weekday, y=totalsteps))+ geom_bar(stat="identity",fi
     theme(plot.title= element_text(hjust= 0.5,vjust= 0.8, size=12),
           panel.background= element_blank())  
   ```  
-![file_show](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/8f1e54f8-1834-4544-b189-adfc3050bbd0)  
+![Activity time variation](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Active%20Time%20Variation.png)  
 Activity time variation graph outcomes represent that the most active users are between Wednesday 5.00-8.00 PM and Saturday 12.00-3.00 PM.  
 * Grouping the users by type of activity and comparing against sleep time  
 
@@ -218,10 +218,10 @@ ggplot(subset(sleep_finalavg,!is.na(totalminutesasleep)),
     theme(plot.title= element_text(hjust = 0.5,vjust= 0.8, size=12),
           legend.position = "none")
 ```    
-![sleep vs activity](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/2c144c46-fb72-4e5e-b3a2-a7039527ddbd)  
+![sleep vs activity](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/sleep%20vs%20activity.png)   
 As per the results detailed above, the sleep time is higher than the recommended levels of sleep for average lightly and fairly active users. In contrast, sleep is below the recommended for typical very active users.  
 ## Dashboard for weekly results  
-![Dashboard 1](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/assets/142766981/9204497e-7c79-49bf-9b68-bd93c8c81516)  
+![Dashboard 1](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Bellabeat%20Dashboard%201.png)  
 Tablaeu dashboard: [Bellabeat Fitness Tracker Case Study](https://public.tableau.com/views/BellabeatFitnessTrackerCaseStudy_16933303803030/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
 
 ## Recommendations  
