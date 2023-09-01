@@ -221,7 +221,7 @@ ggplot(subset(sleep_finalavg,!is.na(totalminutesasleep)),
 ![sleep vs activity](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/sleep%20vs%20activity.png)   
 As per the results detailed above, the sleep time is higher than the recommended levels of sleep for average lightly and fairly active users. In contrast, sleep is below the recommended for typical very active users.  
 ## Dashboard for weekly results  
-![Dashboard 1](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Bellabeat%20Dashboard%201.png)  
+[![Dashboard 1](https://github.com/anushanga2/Bellabeat-Fitness-Tracker-Case-Study/blob/main/images/Bellabeat%20Dashboard%201.png)](https://public.tableau.com/views/BellabeatFitnessTrackerCaseStudy_16933303803030/Dashboard1?:language=en-US&:retry=yes&:display_count=n&:origin=viz_share_link)  
 Tablaeu dashboard: [Bellabeat Fitness Tracker Case Study](https://public.tableau.com/views/BellabeatFitnessTrackerCaseStudy_16933303803030/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
 
 ## Recommendations  
